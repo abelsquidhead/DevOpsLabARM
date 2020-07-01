@@ -112,18 +112,6 @@
                     }
                 }
             ]
-        },
-        {
-            "apiVersion": "2015-08-01",
-            "name": "appsettings",
-            "type": "config",
-            "dependsOn":  [
-                "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]"
-            ],
-            "properties": {
-                "key1": "value1",
-                "key2": "value2"
-            }
         }
     ]
 }
