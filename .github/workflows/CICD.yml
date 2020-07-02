@@ -55,7 +55,7 @@ jobs:
             LOCATION: "WEST US"
           run: |
             az login --service-principal --username %SERVICE_PRINCIPAL% --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} --tenant %SERVICE_PRINCIPAL_TENANT%
-            az group create --name %RESOURCE_GROUP% --location '%LOCATION%'
+            az group create --name %RESOURCE_GROUP% --location %LOCATION%
 
 
 
