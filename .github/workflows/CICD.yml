@@ -72,6 +72,7 @@ jobs:
         with:
           name: webapp
 
+      # debugging step
       - name: show webapp directory
         run: |
           echo ls
@@ -86,10 +87,5 @@ jobs:
           WEB_APP_NAME: devopslabtt
           PATH_TO_WEBSITE_ZIP: .\Tailwind.Traders.web.zip
         run: >
-          powershell -command "& ./deployWebApp.ps1 "
-          -servicePrincipal %SERVICE_PRINCIPAL% 
-          -servicePrincipalSecret ${{ secrets.SERVICE_PRINCIPAL_SECRET }} 
-          -servicePrincipalTenantId %SERVICE_PRINCIPAL_TENANT% 
-          -resourceGroupName %RESOURCE_GROUP% 
-          -webAppName %WEB_APP_NAME% 
-          -pathToWebsiteZip %PATH_TO_WEBSITE_ZIP% 
+          az login --service-principal --username %SERVICE_PRINCIPAL% --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} --tenant %SERVICE_PRINCIPAL_TENANT%
+          az webapp deployment source config-zip -g %RESOURCE_GROUP% -n %WEB_APP_NAME% --src %PATH_TO_WEBSITE_ZIP%
