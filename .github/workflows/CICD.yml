@@ -61,79 +61,35 @@ jobs:
             
 
 
-
-  # provisionAndConfigure:
-  #   runs-on: windows-latest
-  #   steps:
-  #     # checkout code from repo
-  #     - name: Checkout code
-  #       uses: actions/checkout@v1
-        
-  #     # provision and configure infrastructure using a powershel script with Azure CLI
-  #     - name: Provision infrastructure
-  #       env:
-  #         SERVICE_PRINCIPAL: http://AbelDeployDemoBackupPrincipal
-  #         SERVICE_PRINCIPAL_TENANT: 72f988bf-86f1-41af-91ab-2d7cd011db47
-  #         RESOURCE_GROUP: TailwindTraders-Web-Ignite-RG
-  #         RESOURCE_GROUP_REGION: southcentralus
-  #         WEB_APP_NAME: abeltailwindstraders
-  #         APP_SERVICE_REGION: southcentralus
-  #         APP_SERVICE_SKU: P3V2 
-  #         API_URL: https://backend.tailwindtraders.com/webbff/v1
-  #         API_URL_SHOPPING_CART: https://backend.tailwindtraders.com/cart-api
-  #         CLOUDFLARE_ZONE: ff8c819eca8fbc4895f58dba7e0fe6ab
-  #         CLOUDFLARE_ID: 15cc0ef41e07ee95b5e3ff18ca72c770
-  #         DNS_NAME: www.abeltailwindstraders.com
-  #         CLOUDFLARE_EMAIL: abel.wang@gmail.com
-  #         NAKED_DNS: abeltailwindstraders.com
-  #         PFX: ${{ secrets.PFX }}
-  #       run: >
-  #         powershell -command "& ./Deploy/AzCLI/provisionWebApp.ps1 "
-  #         -servicePrincipal %SERVICE_PRINCIPAL% 
-  #         -servicePrincipalSecret ${{ secrets.SERVICE_PRINCIPAL_SECRET }} 
-  #         -servicePrincipalTenantId %SERVICE_PRINCIPAL_TENANT% 
-  #         -resourceGroupName %RESOURCE_GROUP% 
-  #         -resourceGroupNameRegion %RESOURCE_GROUP_REGION% 
-  #         -webAppName %WEB_APP_NAME% 
-  #         -appServiceRegion %APP_SERVICE_REGION%
-  #         -appServiceSKU %APP_SERVICE_SKU%
-  #         -apiUrl %API_URL% 
-  #         -apiUrlShoppingCart %API_URL_SHOPPING_CART% 
-  #         -cloudFlareZone %CLOUDFLARE_ZONE% 
-  #         -dnsName %DNS_NAME% 
-  #         -cloudFlareKey ${{ secrets.CLOUDFLARE_API_KEY }} 
-  #         -cloudFlareEmail %CLOUDFLARE_EMAIL%
-  #         -nakedDns %NAKED_DNS% 
-
-  # deploy:
-  #   needs: [build, provisionAndConfigure] 
-  #   runs-on: windows-latest
-  #   steps:
+  deploy:
+    needs: [build, provisionAndConfigure] 
+    runs-on: windows-latest
+    steps:
       
-  #     # download build artifacts
-  #     - name: Download build artifacts
-  #       uses: actions/download-artifact@master
-  #       with:
-  #         name: webapp
+      # download build artifacts
+      - name: Download build artifacts
+        uses: actions/download-artifact@master
+        with:
+          name: webapp
 
-  #     - name: show webapp directory
-  #       run: |
-  #         echo ls
-  #         ls
+      - name: show webapp directory
+        run: |
+          echo ls
+          ls
           
-  #     # deploy web app
-  #     - name: Deploy web app
-  #       env:
-  #         SERVICE_PRINCIPAL: http://AbelDeployDemoBackupPrincipal
-  #         SERVICE_PRINCIPAL_TENANT: 72f988bf-86f1-41af-91ab-2d7cd011db47
-  #         RESOURCE_GROUP: TailwindTraders-Web-Ignite-RG
-  #         WEB_APP_NAME: abeltailwindstraders
-  #         PATH_TO_WEBSITE_ZIP: .\Tailwind.Traders.web.zip
-  #       run: >
-  #         powershell -command "& ./deployWebApp.ps1 "
-  #         -servicePrincipal %SERVICE_PRINCIPAL% 
-  #         -servicePrincipalSecret ${{ secrets.SERVICE_PRINCIPAL_SECRET }} 
-  #         -servicePrincipalTenantId %SERVICE_PRINCIPAL_TENANT% 
-  #         -resourceGroupName %RESOURCE_GROUP% 
-  #         -webAppName %WEB_APP_NAME% 
-  #         -pathToWebsiteZip %PATH_TO_WEBSITE_ZIP% 
+      # deploy web app
+      - name: Deploy web app
+        env:
+          SERVICE_PRINCIPAL: http://AbelDemoSubscriptionSP
+          SERVICE_PRINCIPAL_TENANT: 72f988bf-86f1-41af-91ab-2d7cd011db47
+          RESOURCE_GROUP: DevOpsLabARMDemoRG
+          WEB_APP_NAME: devopslabtt
+          PATH_TO_WEBSITE_ZIP: .\Tailwind.Traders.web.zip
+        run: >
+          powershell -command "& ./deployWebApp.ps1 "
+          -servicePrincipal %SERVICE_PRINCIPAL% 
+          -servicePrincipalSecret ${{ secrets.SERVICE_PRINCIPAL_SECRET }} 
+          -servicePrincipalTenantId %SERVICE_PRINCIPAL_TENANT% 
+          -resourceGroupName %RESOURCE_GROUP% 
+          -webAppName %WEB_APP_NAME% 
+          -pathToWebsiteZip %PATH_TO_WEBSITE_ZIP% 
