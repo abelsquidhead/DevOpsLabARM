@@ -51,7 +51,7 @@ jobs:
             SERVICE_PRINCIPAL: http://AbelDemoSubscriptionSP
             SERVICE_PRINCIPAL_TENANT: 72f988bf-86f1-41af-91ab-2d7cd011db47
             RESOURCE_GROUP: DevOpsLabARMDemoRG
-            WEB_APP_NAME: abeltailwindtraders
+            WEB_APP_NAME: devopslabtt
             LOCATION: "westus"
             ARM_FILE: .\Deploy\ARM\azuredeploy.json
           run: |
