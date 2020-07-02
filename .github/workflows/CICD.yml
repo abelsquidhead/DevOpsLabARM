@@ -38,7 +38,7 @@ jobs:
         name: webapp
         path: staging
 
-    provisionAndConfigure:
+  provisionAndConfigure:
       runs-on: windows-latest
       steps:
         # checkout code from repo
