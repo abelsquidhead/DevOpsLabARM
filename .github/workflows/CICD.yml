@@ -1,4 +1,4 @@
-name: Ignite 2019 CICD
+name: DevOps Lab ARM Demo - CICD
 
 on: [push]
 
