@@ -53,10 +53,12 @@ jobs:
             RESOURCE_GROUP: DevOpsLabARMDemoRG
             WEB_APP_NAME: abeltailwindtraders
             LOCATION: "westus"
+            ARM_FILE: .\Deploy\ARM\azuredeploy.json
           run: |
             az login --service-principal --username %SERVICE_PRINCIPAL% --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} --tenant %SERVICE_PRINCIPAL_TENANT%
             az group create --name %RESOURCE_GROUP% --location %LOCATION%
-
+            az deployment group create --resource-group %RESOURCE_GROUP% --template-file %ARM_FILE% --parameters webAppName=%WEB_APP_NAME%
+            
 
 
 
