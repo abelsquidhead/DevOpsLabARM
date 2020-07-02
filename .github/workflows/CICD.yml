@@ -54,6 +54,7 @@ jobs:
             WEB_APP_NAME: abeltailwindtraders
           run: >
             az login --service-principal --username %SERVICE_PRINCIPAL% --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} --tenant %SERVICE_PRINCIPAL_TENANT%
+            ls
 
 
 
