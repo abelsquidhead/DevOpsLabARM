@@ -36,24 +36,10 @@
             "metadata": {
                 "description": "The language stack of the app."
             }
-        },    
-        "repoUrl": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Optional Git Repo URL, if empty a 'hello world' app will be deploy from the Azure-Samples repo"
-            }
         }
     },
     "variables": {
         "appServicePlanPortalName": "[concat('AppServicePlan-', parameters('webAppName'))]",
-        "gitRepoReference":{
-            ".net":"https://github.com/Azure-Samples/app-service-web-dotnet-get-started",
-            "node":"https://github.com/Azure-Samples/nodejs-docs-hello-world",
-            "php":"https://github.com/Azure-Samples/php-docs-hello-world",
-            "html":"https://github.com/Azure-Samples/html-docs-hello-world"
-        },
-        "gitRepoUrl":"[if(empty(parameters('repoUrl')), variables('gitRepoReference')[parameters('language')], parameters('repoUrl'))]",
         "configReference": {
             ".net": {
                 "comments": ".Net app. No additional configuration needed."
@@ -98,20 +84,6 @@
             },
             "resources": [
                 {
-                    "type": "sourcecontrols",
-                    "apiVersion": "2019-08-01",
-                    "name": "web",
-                    "location": "[parameters('location')]",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]"
-                    ],
-                    "properties": {
-                        "repoUrl": "[variables('gitRepoUrl')]",
-                        "branch": "master",
-                        "isManualIntegration": true
-                    }
-                },
-                {
                     "name": "appsettings",
                     "type": "config",
                     "apiVersion": "2015-08-01",
@@ -122,8 +94,8 @@
                         "displayName": "WebAppSettings"
                     },
                     "properties": {
-                        "key1": "value1",
-                        "key2": "value2"
+                        "ApiUrl": "https://backend.tailwindtraders.com/webbff/v1",
+                        "ApiUrlShoppingCart": "https://backend.tailwindtraders.com/cart-api"
                     }
                 }
             ]
