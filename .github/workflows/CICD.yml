@@ -15,20 +15,6 @@ jobs:
     - name: Setup nuget
       uses: warrenbuckley/Setup-Nuget@v1
 
-    # build app
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.101
-    
-    - name: Install dependencies
-      run: dotnet restore
-    
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
       
       
     # copy zip to staging
