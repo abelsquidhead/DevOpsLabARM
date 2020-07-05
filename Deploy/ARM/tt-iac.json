@@ -100,11 +100,13 @@
                             "name": "[parameters('webAppName')]",
                             "location": "[parameters('location')]",
                             "dependsOn": [
-                                "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanPortalName'))]"
+                                //"[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanPortalName'))]"
+                                "[concat('Microsoft.Web/serverfarms/', variables('appServicePlanPortalName'))]"
                             ],
                             "properties": {
                                 "siteConfig": "[variables('configReference')[parameters('language')]]",
-                                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanPortalName'))]"
+                                //"serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanPortalName'))]"
+                                //"serverFarmId": "[concat('Microsoft.Web/serverfarms/', variables('appServicePlanPortalName'))]"
                             },
                             "resources": [
                                 {
