@@ -1,6 +1,8 @@
 name: DevOps Lab ARM Demo - CICD
 
-on: [push]
+on: 
+  push:
+  workflow_dispatch:
 
 jobs:
   build:
