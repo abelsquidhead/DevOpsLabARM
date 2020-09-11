@@ -1,59 +1,34 @@
 name: DevOps Lab ARM Demo - CICD
 
-on: 
-  push:
-  workflow_dispatch:
+on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     
     # checkout code from repo
     - name: Checkout code
       uses: actions/checkout@v1
       
-    # setup .net core
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 2.1.x
-   
-    # setup node
-    - name: Setup Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: 10.x
-   
-    # install dependencies
-    - name: Install dependencies
-      run: dotnet restore ./Source/*.sln
-   
-    # build app   
-    - name: Build
-      run: dotnet build ./Source/*.sln --configuration Release --no-restore
-    
-    # run unit tests
-    - name: Test
-      run: dotnet test ./Source/*.sln --no-restore --verbosity normal
-    
-    # publish app to ./staging folder
-    - name: Publish to staging directory
-      env:
-        CI: ""
-      run: dotnet publish ./Source/Tailwind.Traders.Web/Tailwind.Traders.Web.csproj -c Release -o './staging'
-      
-      
-    #debugging
-    - name: Debug and see what is going on
+    # setup nuget
+    - name: Setup nuget
+      uses: warrenbuckley/Setup-Nuget@v1
+
+    # copy zip to staging
+    - name: Build solution
       run: |
-        echo 'ls'
-        ls
-        echo 'cd staging
+        mkdir staging
+        copy .\Deploy\Tailwind.Traders.web.zip .\staging
+        copy .\Deploy\AzCLI\deployWebApp.ps1 .\staging
+    - name: show staging
+      run: |
+        echo cd staging
         cd staging
-        echo 'ls'
+        echo pwd
+        pwd
+        echo ls
         ls
-   
     # upload build artifact
     - name: Publish build artifacts back to GitHub
       uses: actions/upload-artifact@master
