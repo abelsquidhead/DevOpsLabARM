@@ -38,7 +38,9 @@ jobs:
       run: dotnet test ./Source/*.sln --no-restore --verbosity normal
     
     # publish app to ./staging folder
-    - name: Publish
+    - name: Publish to staging directory
+      env:
+        CI: ""
       run: dotnet publish ./Source/Tailwind.Traders.Web/Tailwind.Traders.Web.csproj -c Release -o './staging'
    
     # upload build artifact
