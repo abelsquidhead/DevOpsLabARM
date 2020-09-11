@@ -51,7 +51,7 @@ jobs:
             RESOURCE_GROUP: DevOpsLabARMDemoRG
             WEB_APP_NAME: devopslabtt
             LOCATION: "westus"
-            ARM_FILE: .\Deploy\ARM\tt-iac.json
+            ARM_FILE: ./Deploy/ARM/tt-iac.json
           run: |
             az login --service-principal --username ${SERVICE_PRINCIPAL} --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} --tenant ${SERVICE_PRINCIPAL_TENANT}
             az deployment sub create --location ${LOCATION} --template-file ${ARM_FILE} --parameters webAppName=${WEB_APP_NAME}
