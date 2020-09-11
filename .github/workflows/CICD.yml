@@ -42,6 +42,17 @@ jobs:
       env:
         CI: ""
       run: dotnet publish ./Source/Tailwind.Traders.Web/Tailwind.Traders.Web.csproj -c Release -o './staging'
+      
+      
+    #debugging
+    - name: Debug and see what is going on
+      run: |
+        echo 'ls'
+        ls
+        echo 'cd staging
+        cd staging
+        echo 'ls'
+        ls
    
     # upload build artifact
     - name: Publish build artifacts back to GitHub
