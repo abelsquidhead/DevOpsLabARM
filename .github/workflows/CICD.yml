@@ -37,7 +37,7 @@ jobs:
         path: staging
 
   provisionAndConfigure:
-      runs-on: windows-latest
+      runs-on: ubuntu-latest
       steps:
         # checkout code from repo
         - name: Checkout code
@@ -53,8 +53,8 @@ jobs:
             LOCATION: "westus"
             ARM_FILE: .\Deploy\ARM\tt-iac.json
           run: |
-            az login --service-principal --username %SERVICE_PRINCIPAL% --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} --tenant %SERVICE_PRINCIPAL_TENANT%
-            az deployment sub create --location %LOCATION% --template-file %ARM_FILE% --parameters webAppName=%WEB_APP_NAME%
+            az login --service-principal --username ${SERVICE_PRINCIPAL} --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} --tenant ${SERVICE_PRINCIPAL_TENANT}
+            az deployment sub create --location${LOCATION} --template-file ${ARM_FILE} --parameters webAppName=${WEB_APP_NAME}
  
   deploy:
     needs: [build, provisionAndConfigure] 
