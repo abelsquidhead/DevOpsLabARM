@@ -6,33 +6,41 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     
     # checkout code from repo
     - name: Checkout code
       uses: actions/checkout@v1
       
-    # setup nuget
-    - name: Setup nuget
-      uses: warrenbuckley/Setup-Nuget@v1
-
-    # copy zip to staging
-    - name: Build solution
-      run: |
-        mkdir staging
-        copy .\Deploy\Tailwind.Traders.web.zip .\staging
-        copy .\Deploy\AzCLI\deployWebApp.ps1 .\staging
-
-    - name: show staging
-      run: |
-        echo cd staging
-        cd staging
-        echo pwd
-        pwd
-        echo ls
-        ls
-
+    # setup .net core
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.1.x
+   
+    # setup node
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+   
+    # install dependencies
+    - name: Install dependencies
+      run: dotnet restore ./Source/*.sln
+   
+    # build app   
+    - name: Build
+      run: dotnet build ./Source/*.sln --configuration Release --no-restore
+    
+    # run unit tests
+    - name: Test
+      run: dotnet test ./Source/*.sln --no-restore --verbosity normal
+    
+    # publish app to ./staging folder
+    - name: Publish
+      run: dotnet publish ./Source/Tailwind.Traders.Web/Tailwind.Traders.Web.csproj -c Release -o './staging'
+   
     # upload build artifact
     - name: Publish build artifacts back to GitHub
       uses: actions/upload-artifact@master
